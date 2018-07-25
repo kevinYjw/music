@@ -1,12 +1,10 @@
 <template>
   <div id="app">
-<<<<<<< HEAD
-    hello world
-=======
     <m-header></m-header>
     <tab></tab>
-    <router-view></router-view>
->>>>>>> origin/header
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 
@@ -23,13 +21,4 @@ export default {
 }
 </script>
 
-<<<<<<< HEAD
-<style lang='stylus' scoped>
-  @import "~common/stylus/variable.styl"
-  
-  #app
-    color:$color-theme
-=======
-<style>
->>>>>>> origin/header
-</style>
+<style lang='stylus' scoped></style>
