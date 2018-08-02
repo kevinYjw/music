@@ -13,3 +13,5 @@ export const SET_SEQUENCE_LIST = 'SET_SEQUENCE_LIST' //sequenceList
 export const SET_PLAY_MODE = 'SET_PLAY_MODE' //playMode
 
 export const SET_CURRENT_INDEX = 'SET_CURRENT_INDEX' //currentIndex
+
+export const SET_DISC = 'SET_DISC' //歌单详情
