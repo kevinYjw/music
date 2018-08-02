@@ -1,5 +1,5 @@
 <template>
-  <div class="recommend">
+  <div class="recommend" ref="recommend">
     <scroll ref="scroll" class="recommend-content" :data="disclist">
       <div>
         <!-- 轮播图 -->
@@ -41,10 +41,12 @@ import {ERR_OK} from 'api/config'
 import Slider from 'base/slider/slider'
 import Scroll from 'base/scroll/scroll'
 import Loading from 'base/loading/loading'
+import {playlistMixin} from 'common/js/mixin'
 
 //推荐页面
 export default {
   name: 'recommend',
+  mixins: [playlistMixin],
   data(){
     return {
       recommends: [],
@@ -52,6 +54,11 @@ export default {
     }
   },
   methods:{
+    handlePlaylist(playlist){
+      const bottom = playlist.length > 0 ? '1.2rem' : ''
+      this.$refs.recommend.style.bottom = bottom
+      this.$refs.scroll.refresh()
+    },
     //获取轮播图图片
     _getRecommend(){
       getRecommend().then((res) => {
