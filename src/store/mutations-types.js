@@ -15,3 +15,5 @@ export const SET_PLAY_MODE = 'SET_PLAY_MODE' //playMode
 export const SET_CURRENT_INDEX = 'SET_CURRENT_INDEX' //currentIndex
 
 export const SET_DISC = 'SET_DISC' //歌单详情
+
+export const SET_TOP_LIST = 'SET_TOP_LIST'
