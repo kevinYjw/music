@@ -29,10 +29,6 @@ export default new Router({
       ]
     },
     {
-      path: '/search',
-      component: Search
-    },
-    {
       path: '/rank',
       component: Rank,
       children:[
@@ -46,6 +42,16 @@ export default new Router({
       path: '/singer',
       component: Singer,
       children: [
+        {
+          path: ':id',
+          component: SingerDetail
+        }
+      ]
+    },
+    {
+      path: '/search',
+      component: Search,
+      children:[
         {
           path: ':id',
           component: SingerDetail

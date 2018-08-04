@@ -25,6 +25,10 @@ export default {
     listenScroll:{ //要不要监听滚动事件
       type:Boolean,
       default:false
+    },
+    pullup:{ //上拉刷新
+      type:Boolean,
+      default:false
     }
   },
   methods:{
@@ -40,6 +44,14 @@ export default {
       if(this.listenScroll){
         this.scroll.on("scroll", (pos) => {
           this.$emit('scroll', pos)
+        })
+      }
+
+      if(this.pullup){
+        this.scroll.on("scrollEnd", () => {
+          if(this.scroll.y <= (this.scroll.maxScrollY + 50)){
+            this.$emit('scrollToEnd')
+          }
         })
       }
     },
