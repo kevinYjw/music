@@ -88,11 +88,12 @@
         <div class="control">
           <i class="icon-mini" :class="miniIcon" @click.stop="togglePlaying"></i>
         </div>
-        <div class="control">
+        <div class="control" @click.stop="showPlayList">
           <i class="icon-playlist"></i>
         </div>
       </div>
     </transition>
+    <play-list ref="playlist"></play-list>
     <audio 
     :src="currentSong.url" 
     ref="audio" 
@@ -104,14 +105,15 @@
 </template>
 
 <script>
-import {mapGetters,mapMutations} from 'vuex'
+import {mapGetters,mapMutations,mapActions} from 'vuex'
 import animations from 'create-keyframe-animation'
 import {prefixStyle} from 'common/js/dom'
 import ProgressBar from 'base/progress-bar/progress-bar'
 import {playMode} from 'common/js/config'
-import {shuffle} from 'common/js/util'
 import Lyric from 'lyric-parser'
 import Scroll from 'base/scroll/scroll'
+import PlayList from 'components/playlist/playlist'
+import {playerMixin} from 'common/js/mixin'
 
 const transform = prefixStyle('transform')
 const transitionDuration = prefixStyle('transitionDuration')
@@ -120,6 +122,7 @@ const transitionDuration = prefixStyle('transitionDuration')
 //播放器页面
 export default {
   name: 'Player',
+  mixins: [playerMixin],
   data(){
     return {
       songReady: false,
@@ -133,12 +136,8 @@ export default {
   computed:{
     ...mapGetters([
       'fullScreen',
-      'playlist',
-      'currentSong',
       'playing',
-      'currentIndex',
-      'mode',
-      'sequenceList'
+      'currentIndex'
     ]),
     playIcon(){
       return this.playing ? 'icon-pause' : 'icon-play'
@@ -151,14 +150,12 @@ export default {
     },
     percent(){
       return this.currentTime / this.currentSong.duration
-    },
-    //播放模式
-    iconMode(){
-      return this.mode === playMode.sequence ? 'icon-sequence' : this.mode === playMode.loop ? 'icon-loop' :
-      'icon-random'
     }
   },
   methods:{
+    showPlayList(){
+      this.$refs.playlist.show()
+    },
     back(){
       this.setFullScreen(false)
     },
@@ -212,28 +209,10 @@ export default {
     },
     ready(){
       this.songReady = true
+      this.savePlayHistory(this.currentSong)
     },
     error(){
       this.songReady = true
-    },
-    //切换播放模式
-    changeMode(){
-      const mode = (this.mode + 1) % 3
-      this.setPlayMode(mode)
-      let list = null
-      if(mode === playMode.random){
-        list = shuffle(this.sequenceList)
-      } else {
-        list = this.sequenceList
-      }
-      this.resetCurrentIndex(list)
-      this.setPlayList(list)
-    },
-    resetCurrentIndex(list){
-      let index = list.findIndex((item) => {
-        return item.id === this.currentSong.id
-      })
-      this.setCurrentIndex(index)
     },
     //进度条返回一个当前进度
     onProgressBarChange(percent){
@@ -414,14 +393,16 @@ export default {
     },
     ...mapMutations({
       setFullScreen: 'SET_FULL_SCREEN',
-      setPlayingState: 'SET_PLAYING_STATE',
-      setCurrentIndex: 'SET_CURRENT_INDEX',
-      setPlayMode: 'SET_PLAY_MODE',
-      setPlayList: 'SET_PLAYLIST'
-    })
+    }),
+    ...mapActions([
+      'savePlayHistory'
+    ])
   },
   watch:{
     currentSong(newSong,oldSong){
+      if(!newSong.id){
+        return
+      }
       if(newSong.id === oldSong.id){
         return
       }
@@ -442,7 +423,8 @@ export default {
   },
   components:{
     ProgressBar,
-    Scroll
+    Scroll,
+    PlayList
   },
   created(){
     this.touch = {}

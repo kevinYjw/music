@@ -56,7 +56,7 @@ export default {
   @import "~common/stylus/variable" 
   @import "~common/stylus/mixin"
   
-  .music-list
+  .song-list
     .item
       display:flex
       align-items:center

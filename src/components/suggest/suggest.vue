@@ -16,7 +16,6 @@
       </li>
       <loading v-show="hasMore"></loading>
     </ul>
-    <router-view></router-view>
     <div class="no-result-wrapper" v-show="!hasMore && !result.length">
       <no-result title="抱歉，暂无搜索结果"></no-result>
     </div>
@@ -168,6 +167,7 @@ const perpage = 20
   .suggest
     height:100%
     overflow:hidden
+    z-index:200
     .suggest-list
       padding:0 .6rem
       .suggest-item
