@@ -1,6 +1,6 @@
 //vuex所有状态
 import {playMode} from 'common/js/config'
-import {loadSearch,loadPlay} from 'common/js/cache'
+import {loadSearch,loadPlay,loadFavorite} from 'common/js/cache'
 
 const state = {
 	singer: {},
@@ -13,7 +13,8 @@ const state = {
 	disc: {},  //歌单详情
 	toplist: {}, //排行详情
 	searchHistory: loadSearch(), //本地储存
-	playHistory: loadPlay() //播放历史
+	playHistory: loadPlay(), //播放历史
+	favoriteList: loadFavorite() //收藏列表
 }
 
 export default state
