@@ -505,8 +505,6 @@ export default {
             .cd
               width:100%
               height:100%
-              box-sizing: border-box
-              border: .2rem solid rgba(255, 255, 255, 0.1)
               border-radius: 50%
               &.play
                 animation:rotate 20s linear infinite
@@ -519,6 +517,8 @@ export default {
                 width:100%
                 height:100%
                 border-radius:50%
+                box-sizing: border-box
+                border: .2rem solid rgba(255, 255, 255, 0.1)
           .playing-lyric-wrapper
             width:80%
             margin:.6rem auto 0 auto
