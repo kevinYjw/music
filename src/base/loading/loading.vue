@@ -13,7 +13,7 @@ export default {
   props:{
     title: {
       type: String,
-      default: '正在载入...'
+      default: '正在载入..'
     }
   }
 }
